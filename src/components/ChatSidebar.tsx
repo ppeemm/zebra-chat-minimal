@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { MessageSquare, Plus, MoreHorizontal, Trash2, Edit3 } from 'lucide-react';
+import { MessageSquare, Plus, MoreHorizontal, Trash2, Edit3, Home } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { useNavigate } from 'react-router-dom';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,6 +18,7 @@ interface ChatHistory {
 }
 
 const ChatSidebar = () => {
+  const navigate = useNavigate();
   const [chatHistory] = useState<ChatHistory[]>([
     {
       id: '1',
@@ -44,6 +46,17 @@ const ChatSidebar = () => {
     <div className="w-64 h-full bg-sidebar-bg border-r border-border flex flex-col">
       {/* Header */}
       <div className="p-4 border-b border-border">
+        <div className="flex gap-2 mb-3">
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => navigate('/')}
+            className="gap-2"
+          >
+            <Home className="h-4 w-4" />
+            Home
+          </Button>
+        </div>
         <Button 
           variant="outline" 
           className="w-full justify-start gap-2 bg-background hover:bg-sidebar-hover transition-colors"

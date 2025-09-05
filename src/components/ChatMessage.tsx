@@ -12,8 +12,8 @@ const ChatMessage = ({ message, isUser, timestamp }: ChatMessageProps) => {
     <div className={`flex gap-4 p-6 ${isUser ? 'bg-background' : 'bg-chat-bot'}`}>
       <div className="flex-shrink-0">
         {isUser ? (
-          <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shadow-sm">
-            <User className="h-4 w-4 text-muted-foreground" />
+          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center shadow-sm">
+            <User className="h-4 w-4 text-white" />
           </div>
         ) : (
           <div className="w-8 h-8 rounded-full overflow-hidden shadow-sm">
