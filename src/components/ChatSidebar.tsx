@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import { MessageSquare, Plus, MoreHorizontal, Trash2, Edit3, Home } from 'lucide-react';
+import { MessageSquare, Plus, MoreHorizontal, Trash2, Edit3, Home, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useNavigate } from 'react-router-dom';
+import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +21,10 @@ interface ChatHistory {
 
 const ChatSidebar = () => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState('You');
+  const [tempName, setTempName] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  
   const [chatHistory] = useState<ChatHistory[]>([
     {
       id: '1',
@@ -42,6 +48,14 @@ const ChatSidebar = () => {
 
   const [activeChat, setActiveChat] = useState('1');
 
+  const handleNameChange = () => {
+    if (tempName.trim()) {
+      setUserName(tempName.trim());
+      setTempName('');
+      setIsDialogOpen(false);
+    }
+  };
+
   return (
     <div className="w-64 h-full bg-sidebar-bg border-r border-border flex flex-col">
       {/* Header */}
@@ -56,6 +70,35 @@ const ChatSidebar = () => {
             <Home className="h-4 w-4" />
             Home
           </Button>
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm" className="gap-2">
+                <User className="h-4 w-4" />
+                {userName}
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Change Your Name</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 pt-4">
+                <Input
+                  placeholder="Enter your name"
+                  value={tempName}
+                  onChange={(e) => setTempName(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && handleNameChange()}
+                />
+                <div className="flex justify-end gap-2">
+                  <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleNameChange}>
+                    Save
+                  </Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
         <Button 
           variant="outline" 
